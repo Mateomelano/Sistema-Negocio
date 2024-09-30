@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- SweetAlert 2 -->
+    <script src="/plugins/sweetalert2/sweetalert2.all.js"></script>
+    <!-- By default SweetAlert2 doesn't support IE. To enable IE 11 support, include Promise polyfill:-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
+
+    <title>TravelUs.</title>
+
+    
+    <link rel="stylesheet" href="tienda.css" />
+
+    <link rel="stylesheet" href="/tienda/assets/css/vistaPaquete.css" />
+
+    <link rel="stylesheet" href="/tienda/assets/css/paquete.css" />
+
+    <link rel="stylesheet" href="/tienda/assets/css/carrousel.css" />
+
+    <link rel="stylesheet" href="/tienda/assets/css/login.css" />
+
+    <link rel="stylesheet" href="/tienda/assets/css/listarPaquete.css" />
+    
+    <link rel="stylesheet" href="/tienda/assets/css/reservasactivas.css">
+    <!-- Font Awesome -->
+    
+    <script type="module" src="/tienda/App/tienda.js"></script>
+
+    <script src="./controladores/buscador/buscador.js"></script>
+
+  </head>
+  <body id="inicio">
+    <header id="header">
+      <a href="tienda.html" style="text-decoration: none"
+        ><h1>
+          TravelUs<span><i class="fa-solid fa-earth-americas"></i></span></h1
+      ></a>
+      <div>
+        <ul id="navbar">
+          <li>
+            <a
+              href="#login"
+              class="btnLogin"
+              data-emailUsuario=""
+              data-idUsuario=""
+            >
+              Sign in <i class="fa-regular fa-user"></i
+            ></a>
+          <a href="#register" class="btnRegister">Sign up <i class="fa-regular fa-user"></i></a>
+          <a href="#reservas" class="btnReservasActivas">Reservas<i class="nav-icon fa-regular fa-calendar-check" style="margin: 1vh;"></i></a>
+        </li>
+
+        </ul>
+      </div>
+    </header>
+    <main id="mainContent">
+      <section class="seccionLogin"></section>
+
+      <section class="carrusel"></section>
+
+      <section class="buscador"><div class="buscadorcentrado"><h3>BUSCAR DESTINOS</h3> <input type="text" id="searchBar" placeholder="Buscar por nombre..." onkeyup="filter()"></input></div></section>
+
+      <section class="listarPaquetes" id="paquetesList"></section>
+
+      <section class="vistaPaquetes"></section>
+
+      <section class="seccionReservas" id="reservasList"></section>
+
+    </main>
+
+    <!--  -->
+    <script>
+      
+    </script>
+    
+  </body>
+</html>

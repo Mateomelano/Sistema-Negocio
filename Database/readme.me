@@ -1,0 +1,43 @@
+Si es la primera vez que abris el archivo:
+
+    Crear entorno virtual e instalar dependencias
+
+        cd Database
+
+        python -m venv venv
+
+        cd venv\Scripts 
+
+        activate.bat
+
+        cd ..\..
+
+        pip install fastapi
+
+        pip install uvicorn
+
+        pip install SQLAlchemy
+
+        pip install mysql-connector-python
+
+        pip install PyJWT
+
+        pip install python-dotenv
+
+        pip install pydantic[email]
+    
+    Crear base de datos en mysqlShell
+     
+        CREATE DATABASE mydatabase;
+    
+    Cambiar URL de la base de datos en archivo .env
+                                                  ________
+        DATABASE_URL=mysql+mysqlconnector://root:(PASSWORD)@localhost/mydatabase
+
+    Por ultimo ejecutar api
+
+        uvicorn main:app --reload
+
+ANTES DE EMPEZAR A CODEAR HAGAN UN PULL
+
+y ctienen que crearse el usuario desde mysqlShell

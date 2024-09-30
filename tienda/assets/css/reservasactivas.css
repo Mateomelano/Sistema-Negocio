@@ -1,0 +1,97 @@
+.seccionReservas {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    font-family: "Inter", sans-serif;
+    width: 100%;
+}
+
+
+.seccionReservas .container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    font-family: "Inter", sans-serif;
+}
+  
+.pro {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    border-radius: 4px;
+    overflow: hidden;
+    transition: box-shadow 0.3s ease;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+.pro:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+  
+.info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.pro-img {
+    width: 350px;
+    height: auto;
+    display: block;
+}
+  
+.des {
+    padding: 15px;
+    text-align: left;
+}
+  
+.user {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    color: #333;
+}
+  
+.user i {
+    color: #7130e9;
+    margin-left: 5px;
+}
+  
+.package {
+    font-size: 20px;
+    margin: 10px 0;
+    color: #7130e9;
+}
+  
+.fecha, .cant_pers {
+    font-size: 14px;
+    color: #555;
+    font-weight: 500;
+    border: #7130e9 1px solid;
+    border-radius: 4px;
+    padding: 3px 6px;
+    margin: 5px;
+    flex: 1;
+    
+}
+  
+.eliminarBtn {
+    background-color: #7130e9;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    margin: 5px 0 0 0;
+}
+  
+.elimarBtn:hover {
+    background-color: #fc2011;
+    box-shadow: 0 10px 10px rgba(138, 13, 255, 0.322);
+}
