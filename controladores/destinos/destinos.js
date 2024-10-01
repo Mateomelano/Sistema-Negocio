@@ -4,7 +4,8 @@ import { editRegister } from "./new.js";
 
 
 const htmlDestinos = 
-`<div class="card">
+`
+<div class="card">
     <div class="card-header">
     
     <h3 class="card-title"> 
@@ -12,7 +13,6 @@ const htmlDestinos =
     </h3>   
 
     </div>
-    <!-- /.card-header -->
     <div class="card-body">            
     <table id="destinosTable" class="table table-bordered table-striped tableDestino" width="100%">
         <thead>
@@ -27,8 +27,7 @@ const htmlDestinos =
 
     </table>
     </div>
-    <!-- /.card-body -->
-</div> `;
+</div> ; `
 
 export async function Destinos(){
     let d = document
@@ -75,7 +74,7 @@ async function borrar(){
         title: 'Esta seguro que desea eliminar el destino?',
         showDenyButton: true,
         confirmButtonText: 'Si',
-        denyButtonText: `Cancelar`,
+        denyButtonText: Cancelar,
         focusDeny: true
     }).then((result) => {
         if (result.isConfirmed) {

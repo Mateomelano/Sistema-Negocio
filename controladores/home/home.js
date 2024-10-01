@@ -2,6 +2,7 @@ import { usuariosServices } from "../../servicios/usuarios-servicios.js";
 import { destinosServices } from "../../servicios/destinos-servicios.js";
 import { paquetesServices } from "../../servicios/paquetes-servicios.js";
 import { reservaServices } from "../../servicios/reservas-servicios.js";
+import { productosServices } from "../../servicios/producto-servicios.js";
 
 const htmlHome = 
 ` <div class="row" >
@@ -66,7 +67,6 @@ const htmlHome =
         </div>
     </div>
 
-    
     <div class="col-lg-3 col-6">
         <!-- small box -->
         <div class="small-box">
@@ -80,20 +80,38 @@ const htmlHome =
             <a href="#/paquetes" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
         </div>
     </div>
+
     <!-- ./col -->
     <div class="col-lg-3 col-6">
-    <!-- small box -->
-    <div class="small-box">
-        <div class="inner">
-            <h3 id="indUsuarioMasReservas" style="margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">0</h3>
-            <p>Usuario con más reservas</p>
+        <!-- small box -->
+        <div class="small-box">
+            <div class="inner">
+                <h3 id="indUsuarioMasReservas" style="margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">0</h3>
+                <p>Usuario con más reservas</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-person"></i>
+            </div>
+            <a href="#/usuarios" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
         </div>
-        <div class="icon">
-            <i class="ion ion-person"></i>
-        </div>
-        <a href="#/usuarios" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
     </div>
-</div>`
+
+    <!-- New box for products -->
+    <div class="col-lg-3 col-6">
+        <!-- small box -->
+        <div class="small-box">
+            <div class="inner">
+                <h3 id="indProductos">0</h3>
+                <p>Productos</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-bag"></i>
+            </div>
+            <a href="#/productos" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+</div>`;
+
 
 
 export async function Home(){

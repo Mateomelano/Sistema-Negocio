@@ -9,154 +9,49 @@ const htmlAmProducto = `
                
             <div class="col-md-8 offset-md-2">	
                
-                <!--=====================================
-                Nombre
-                ======================================-->
-                
-                <div class="form-group mt-5">
-                    
-                    <label>Nombre</label>
+                <!-- Otros campos como Nombre, Descripción, etc. -->
 
-                    <input 
-                    type="text" 
-                    class="form-control"
-                    pattern="[A-Za-zñÑáéíóúÁÉÍÓÚ ]{1,}"
-                    onchange="validateJS(event,'nombre')"
-                    name="nombre"
-                    id="productoNombre"
-                    required>
+                <!--=====================================
+                Categoría
+                ======================================-->
+                <div class="form-group mt-2">
+                    <label>Categoría</label>
+                    <select class="form-control" name="categoria" id="productoCategoria" required>
+                        <option value="">Seleccionar categoría</option>
+                        <option value="1">Categoría 1</option>
+                        <option value="2">Categoría 2</option>
+                        <!-- Añadir más categorías según sea necesario -->
+                    </select>
 
                     <div class="valid-feedback">Valid.</div>
-                    <div class="invalid-feedback">Please fill out this field.</div>
-
+                    <div class="invalid-feedback">Please select a category.</div>
                 </div>
 
                 <!--=====================================
-                Descripción
-                ======================================-->   
-
-                <div class="form-group mt-2">
-                    
-                    <label>Descripción</label>
-
-                    <input 
-                    type="text" 
-                    class="form-control"
-                    onchange="validateJS(event,'descripcion')"
-                    name="descripcion"
-                    id="productoDescripcion"
-                    required>
-
-                    <div class="valid-feedback">Valid.</div>
-                    <div class="invalid-feedback">Please fill out this field.</div>
-
-                </div>
-
-                <!--=====================================
-                Precio de Coste
+                Imagen
                 ======================================-->
-
                 <div class="form-group mt-2">
-                    
-                    <label>Precio de Coste</label>
-
-                    <input 
-                    type="number" 
-                    class="form-control"
-                    onchange="validateJS(event,'precio_coste')"
-                    name="precio_coste"
-                    id="productoPrecioCoste"
-                    required>
-
+                    <label>Imagen del Producto</label>
+                    <input type="file" class="form-control" name="imagen" id="productoImagen" accept="image/*">
                     <div class="valid-feedback">Valid.</div>
-                    <div class="invalid-feedback">Please fill out this field.</div>
-
-                </div>
-
-                <!--=====================================
-                Precio Final
-                ======================================-->
-
-                <div class="form-group mt-2">
-                    
-                    <label>Precio Final</label>
-
-                    <input 
-                    type="number" 
-                    class="form-control"
-                    onchange="validateJS(event,'precio_final')"
-                    name="precio_final"
-                    id="productoPrecioFinal"
-                    required>
-
-                    <div class="valid-feedback">Valid.</div>
-                    <div class="invalid-feedback">Please fill out this field.</div>
-
-                </div>
-
-                <!--=====================================
-                Código de Barra
-                ======================================-->
-
-                <div class="form-group mt-2">
-                    
-                    <label>Código de Barra</label>
-
-                    <input 
-                    type="text" 
-                    class="form-control"
-                    onchange="validateJS(event,'cod_barra')"
-                    name="cod_barra"
-                    id="productoCodBarra"
-                    required>
-
-                    <div class="valid-feedback">Valid.</div>
-                    <div class="invalid-feedback">Please fill out this field.</div>
-
-                </div>
-
-                <!--=====================================
-                Peso
-                ======================================-->
-
-                <div class="form-group mt-2">
-                    
-                    <label>Peso</label>
-
-                    <input 
-                    type="number" 
-                    class="form-control"
-                    onchange="validateJS(event,'peso')"
-                    name="peso"
-                    id="productoPeso"
-                    required>
-
-                    <div class="valid-feedback">Valid.</div>
-                    <div class="invalid-feedback">Please fill out this field.</div>
-
+                    <div class="invalid-feedback">Please upload an image.</div>
                 </div>
 
             </div>
 
         </div>
         <div class="card-footer">
-			
-			<div class="col-md-8 offset-md-2">
-	
-				<div class="form-group mt-3">
-
-					<a href="#/productos" class="btn btn-light border text-left">Cancelar</a>
-					
-					<button type="submit" class="btn bg-dark float-right">Guardar</button>
-
-				</div>
-
-			</div>
-
-		</div>
+            <div class="col-md-8 offset-md-2">
+                <div class="form-group mt-3">
+                    <a href="#/productos" class="btn btn-light border text-left">Cancelar</a>
+                    <button type="submit" class="btn bg-dark float-right">Guardar</button>
+                </div>
+            </div>
+        </div>
     </form>
 </div>
 `;
+
 
 var formulario = '';
 var txtNombre = '';
@@ -166,6 +61,8 @@ var txtPrecioFinal = '';
 var txtCodBarra = '';
 var txtPeso = '';
 var idProducto;
+var txtImagen = '';
+var txtCategoria = '';
 
 export async function newRegister(){
 
@@ -200,7 +97,6 @@ export async function editRegister(id){
     txtCodBarra.value = producto.cod_barra;
     txtPeso.value = producto.peso;
 }
-
 function crearFormulario(){
     let d = document;
     d.querySelector('.rutaMenu').innerHTML = "Productos";
@@ -214,13 +110,17 @@ function crearFormulario(){
     script.src = "../controladores/validaciones.js";
     cP.appendChild(script);
 
+    // Obtener los elementos del formulario
     txtNombre = d.getElementById('productoNombre');
     txtDescripcion = d.getElementById('productoDescripcion');
     txtPrecioCoste = d.getElementById('productoPrecioCoste');
     txtPrecioFinal = d.getElementById('productoPrecioFinal');
     txtCodBarra = d.getElementById('productoCodBarra');
     txtPeso = d.getElementById('productoPeso');
+    txtImagen = d.getElementById('productoImagen');
+    txtCategoria = d.getElementById('productoCategoria');
 }
+
 
 function guardar(e){
     e.preventDefault();
@@ -231,8 +131,22 @@ function guardar(e){
     var precioFinal = txtPrecioFinal.value;
     var codBarra = txtCodBarra.value;
     var peso = txtPeso.value;
+    var categoria = txtCategoria.value;
+    var imagen = txtImagen.files[0];
 
-    productosServices.crear(nombre, descripcion, precioCoste, precioFinal, codBarra, peso)
+    let formData = new FormData();
+    formData.append('nombre', nombre);
+    formData.append('descripcion', descripcion);
+    formData.append('precio_coste', precioCoste);
+    formData.append('precio_final', precioFinal);
+    formData.append('cod_barra', codBarra);
+    formData.append('peso', peso);
+    formData.append('categoria', categoria);
+    if (imagen) {
+        formData.append('imagen', imagen);
+    }
+
+    productosServices.crear(formData)
         .then(respuesta => {
             formulario.reset();
             window.location.hash = "#/productos";
@@ -261,8 +175,22 @@ function modificar(e){
     var precioFinal = txtPrecioFinal.value;
     var codBarra = txtCodBarra.value;
     var peso = txtPeso.value;
+    var categoria = txtCategoria.value;
+    var imagen = txtImagen.files[0];
 
-    productosServices.editar(idProducto, nombre, descripcion, precioCoste, precioFinal, codBarra, peso)
+    let formData = new FormData();
+    formData.append('nombre', nombre);
+    formData.append('descripcion', descripcion);
+    formData.append('precio_coste', precioCoste);
+    formData.append('precio_final', precioFinal);
+    formData.append('cod_barra', codBarra);
+    formData.append('peso', peso);
+    formData.append('categoria', categoria);
+    if (imagen) {
+        formData.append('imagen', imagen);
+    }
+
+    productosServices.editar(idProducto, formData)
         .then(respuesta => {
             formulario.reset();
             window.location.hash = "#/productos";
