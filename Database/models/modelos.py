@@ -19,6 +19,7 @@ class Usuarios(Base):
 class Producto(Base):
     __tablename__ = 'productos'
     id_producto = Column(Integer, primary_key=True, index=True)
+    nombre = Column(String(100), nullable=False)  # Nueva columna 'nombre'
     cod_barra = Column(String(50), nullable=False)
     precio_coste = Column(Float, nullable=False)
     precio_final = Column(Float, nullable=False)

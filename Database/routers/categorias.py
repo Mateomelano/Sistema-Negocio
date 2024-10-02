@@ -48,8 +48,12 @@ def update_categoria(id: int, categoria: Categoria) -> dict:
 @categoria_router.delete('/categorias/{id}', tags=['Categorias'], response_model=dict, status_code=200)
 def delete_categoria(id: int) -> dict:
     db = SessionLocal()
-    result: CategoriaModel = db.query(CategoriaModel).filter(CategoriaModel.id == id).first()
+    # Cambiar 'id' por 'id_categoria' si es el nombre correcto de la columna en tu modelo
+    result: CategoriaModel = db.query(CategoriaModel).filter(CategoriaModel.id_categoria == id).first()
     if not result:
-        return JSONResponse(status_code=404, content={"message": "No se encontró"})
+        return JSONResponse(status_code=404, content={"message": "No se encontró la categoría"})
+
+    # Llamar a la función de eliminación
     CategoriaService(db).delete_categoria(id)
+
     return JSONResponse(status_code=200, content={"message": "Se ha eliminado la categoría"})

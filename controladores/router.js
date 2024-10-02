@@ -5,6 +5,7 @@ import { Productos } from "./productos/productos.js";
 import { Destinos } from "./destinos/destinos.js";
 import { Paquetes } from "./paquetes/paquetes.js";
 import { Reservas } from "./reservas/reservas.js";
+import { Categorias } from "./categorias/categorias.js";
 
 
 
@@ -33,7 +34,9 @@ export function Router(){
         Reservas();
     } else if(hash==='#/productos'){
         Productos();
-    }
+    } else if(hash==='#/categorias'){
+        Categorias();
+    } 
          
     console.log (hash);
 }

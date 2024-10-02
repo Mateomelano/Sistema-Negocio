@@ -2,43 +2,68 @@ import { productosServices } from "../../servicios/producto-servicios.js";
 
 const htmlAmProducto = `
 <div class="card card-dark card-outline">
-
     <form class="needs-validation frmAmProducto" enctype="multipart/form-data">
-    
         <div class="card-header">
-               
-            <div class="col-md-8 offset-md-2">	
-               
-                <!-- Otros campos como Nombre, Descripción, etc. -->
-
-                <!--=====================================
-                Categoría
-                ======================================-->
+            <div class="col-md-8 offset-md-2">
+                <!-- Nombre -->
+                <div class="form-group mt-2">
+                    <label>Nombre</label>
+                    <input type="text" class="form-control" name="nombre" id="productoNombre" required>
+                    <div class="valid-feedback">Valid.</div>
+                    <div class="invalid-feedback">Please enter the product name.</div>
+                </div>
+                <!-- Descripción -->
+                <div class="form-group mt-2">
+                    <label>Descripción</label>
+                    <textarea class="form-control" name="descripcion" id="productoDescripcion" rows="3" required></textarea>
+                    <div class="valid-feedback">Valid.</div>
+                    <div class="invalid-feedback">Please enter a description.</div>
+                </div>
+                <!-- Precio Coste -->
+                <div class="form-group mt-2">
+                    <label>Precio Coste</label>
+                    <input type="number" class="form-control" name="precio_coste" id="productoPrecioCoste" required>
+                    <div class="valid-feedback">Valid.</div>
+                    <div class="invalid-feedback">Please enter a cost price.</div>
+                </div>
+                <!-- Precio Final -->
+                <div class="form-group mt-2">
+                    <label>Precio Final</label>
+                    <input type="number" class="form-control" name="precio_final" id="productoPrecioFinal" required>
+                    <div class="valid-feedback">Valid.</div>
+                    <div class="invalid-feedback">Please enter a final price.</div>
+                </div>
+                <!-- Código de Barra -->
+                <div class="form-group mt-2">
+                    <label>Código de Barra</label>
+                    <input type="text" class="form-control" name="cod_barra" id="productoCodBarra" required>
+                    <div class="valid-feedback">Valid.</div>
+                    <div class="invalid-feedback">Please enter the barcode.</div>
+                </div>
+                <!-- Peso -->
+                <div class="form-group mt-2">
+                    <label>Peso</label>
+                    <input type="number" class="form-control" name="peso" id="productoPeso" required>
+                    <div class="valid-feedback">Valid.</div>
+                    <div class="invalid-feedback">Please enter the weight.</div>
+                </div>
+                <!-- Categoría -->
                 <div class="form-group mt-2">
                     <label>Categoría</label>
                     <select class="form-control" name="categoria" id="productoCategoria" required>
                         <option value="">Seleccionar categoría</option>
-                        <option value="1">Categoría 1</option>
-                        <option value="2">Categoría 2</option>
-                        <!-- Añadir más categorías según sea necesario -->
                     </select>
-
                     <div class="valid-feedback">Valid.</div>
                     <div class="invalid-feedback">Please select a category.</div>
                 </div>
-
-                <!--=====================================
-                Imagen
-                ======================================-->
+                <!-- Imagen -->
                 <div class="form-group mt-2">
                     <label>Imagen del Producto</label>
                     <input type="file" class="form-control" name="imagen" id="productoImagen" accept="image/*">
                     <div class="valid-feedback">Valid.</div>
                     <div class="invalid-feedback">Please upload an image.</div>
                 </div>
-
             </div>
-
         </div>
         <div class="card-footer">
             <div class="col-md-8 offset-md-2">
@@ -77,35 +102,44 @@ export async function newRegister(){
     formulario.addEventListener('submit', guardar);
 }
 
-export async function editRegister(id){
+export async function editRegister(id) {
     let d = document;
     idProducto = id;
     d.querySelector('.contenidoTitulo').innerHTML = 'Editar Producto';
     d.querySelector('.contenidoTituloSec').innerHTML += ' Editar';
 
-    crearFormulario();
+    await crearFormulario();  // Esto genera el formulario
 
     formulario = d.querySelector('.frmAmProducto');
     formulario.addEventListener('submit', modificar);
 
-    let producto = await productosServices.listar(id);
+    let producto = await productosServices.listar(id);  // Obtenemos los datos del producto desde la API
 
-    txtNombre.value = producto.nombre;
-    txtDescripcion.value = producto.descripcion;
-    txtPrecioCoste.value = producto.precio_coste;
-    txtPrecioFinal.value = producto.precio_final;
-    txtCodBarra.value = producto.cod_barra;
-    txtPeso.value = producto.peso;
+    // Rellenar el formulario con los datos del producto
+    txtNombre.value = producto.nombre || '';  // Precargar el nombre
+    txtDescripcion.value = producto.descripcion || '';  // Precargar la descripción
+    txtPrecioCoste.value = producto.precio_coste || '';  // Precargar el precio de coste
+    txtPrecioFinal.value = producto.precio_final || '';  // Precargar el precio final
+    txtCodBarra.value = producto.cod_barra || '';  // Precargar el código de barra
+    txtPeso.value = producto.peso || '';  // Precargar el peso
+
+    // Seleccionar la categoría actual del producto
+    let categoriaOption = Array.from(txtCategoria.options).find(option => option.value == producto.id_categoria);
+    if (categoriaOption) {
+        categoriaOption.selected = true;
+    }
 }
-function crearFormulario(){
+
+
+async function crearFormulario() {
     let d = document;
     d.querySelector('.rutaMenu').innerHTML = "Productos";
-    d.querySelector('.rutaMenu').setAttribute('href',"#/productos");
+    d.querySelector('.rutaMenu').setAttribute('href', "#/productos");
 
-    let cP =d.getElementById('contenidoPrincipal');
-    cP.innerHTML =  htmlAmProducto;
+    let cP = d.getElementById('contenidoPrincipal');
+    cP.innerHTML = htmlAmProducto;
 
-    var script = document.createElement( "script" );
+    var script = document.createElement("script");
     script.type = "text/javascript";
     script.src = "../controladores/validaciones.js";
     cP.appendChild(script);
@@ -119,7 +153,17 @@ function crearFormulario(){
     txtPeso = d.getElementById('productoPeso');
     txtImagen = d.getElementById('productoImagen');
     txtCategoria = d.getElementById('productoCategoria');
+
+    // Obtener categorías de la API y agregarlas al select
+    let categorias = await categoriasServices.listar();
+    categorias.forEach(categoria => {
+        let option = document.createElement('option');
+        option.value = categoria.id;
+        option.text = categoria.nombre;
+        txtCategoria.appendChild(option);
+    });
 }
+
 
 
 function guardar(e){

@@ -17,6 +17,7 @@ const htmlProductos =
         <thead>
             <tr>
             <th>#</th>
+            <th>Nombre</th> <!-- Nueva columna para el nombre del producto -->
             <th>Código de Barra</th>
             <th>Precio Coste</th>
             <th>Precio Final</th>
@@ -26,7 +27,6 @@ const htmlProductos =
             <th>Acciones</th>
             </tr>
         </thead>
-
     </table>
     </div>
     <!-- /.card-body -->
@@ -111,6 +111,7 @@ function llenarTabla(res){
         data: res,
         columns: [
             { data: 'id_producto' },
+            { data: 'nombre' }, // Nueva columna para el nombre
             { data: 'cod_barra' },
             { data: 'precio_coste' },
             { data: 'precio_final' },
@@ -148,3 +149,4 @@ function llenarTabla(res){
         }           
     });
 }
+

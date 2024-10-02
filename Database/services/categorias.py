@@ -1,6 +1,7 @@
 from models.modelos import Categoria as CategoriaModel
 from schemas.categorias import Categoria
 
+print("CATEGORIAS" , Categoria)
 
 class CategoriaService():
     
@@ -28,8 +29,10 @@ class CategoriaService():
             categoria.descripcion = data.descripcion
             self.db.commit()
         return
-
-    def delete_categoria(self, id: int):
-        self.db.query(CategoriaModel).filter(CategoriaModel.id_categoria == id).delete()
+    def delete_categoria(self, id_categoria: int):
+        categoria = self.db.query(CategoriaModel).filter(CategoriaModel.id_categoria == id_categoria).first()
+        if not categoria:
+            raise ValueError("La categoría no existe")
+        
+        self.db.delete(categoria)
         self.db.commit()
-        return
