@@ -13,6 +13,9 @@ class Usuarios(Base):
 
     # Relación con la tabla Venta (Un usuario puede realizar varias ventas)
     ventas = relationship("Venta", back_populates="usuario")
+    
+    # Relación con la tabla Caja (Un usuario puede estar asociado a varias cajas)
+    cajas = relationship("Caja", back_populates="usuario")
 
 
 # Tabla Productos
@@ -70,8 +73,12 @@ class Caja(Base):
     id_caja = Column(Integer, primary_key=True, index=True)
     fecha = Column(Date, nullable=False)
     id_venta = Column(Integer, ForeignKey('venta.id_venta'), nullable=False)  # Relacionada con id_venta de Venta
+    id_usuario = Column(Integer, ForeignKey('usuarios.id'), nullable=False)  # Relacionada con id de Usuarios
     total = Column(Float, nullable=False)
     estado = Column(String(50), nullable=False)
 
     # Relación con la tabla Venta
     venta = relationship("Venta", back_populates="cajas")
+    
+    # Relación con la tabla Usuarios (cada caja está asociada a un usuario)
+    usuario = relationship("Usuarios", back_populates="cajas")
