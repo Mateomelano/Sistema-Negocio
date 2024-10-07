@@ -1,4 +1,5 @@
 import { productosServices } from "../../servicios/producto-servicios.js";
+import { categoriasServices } from "../../servicios/categoria-servicios.js";
 
 const htmlAmProducto = `
 <div class="card card-dark card-outline">
@@ -103,6 +104,7 @@ export async function newRegister(){
 }
 
 export async function editRegister(id) {
+    debugger
     let d = document;
     idProducto = id;
     d.querySelector('.contenidoTitulo').innerHTML = 'Editar Producto';

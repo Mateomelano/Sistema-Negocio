@@ -43,7 +43,7 @@ export async function Productos(){
 
     res = await productosServices.listar();
     res.forEach(element => {
-        element.action = "<div class='btn-group'><a class='btn btn-warning btn-sm mr-1 rounded-circle btnEditarProducto'  href='#/editProducto' data-idProducto='"+ element.id +"'> <i class='fas fa-pencil-alt'></i></a><a class='btn btn-danger btn-sm rounded-circle removeItem btnBorrarProducto'href='#/delProducto' data-idProducto='"+ element.id +"'><i class='fas fa-trash'></i></a></div>";
+        element.action = "<div class='btn-group'><a class='btn btn-warning btn-sm mr-1 rounded-circle btnEditarProducto'  href='#/editProducto' data-idProducto='"+ element.id_producto +"'> <i class='fas fa-pencil-alt'></i></a><a class='btn btn-danger btn-sm rounded-circle removeItem btnBorrarProducto'href='#/delProducto' data-idProducto='"+ element.id_producto +"'><i class='fas fa-trash'></i></a></div>";
 
         // Asegúrate de agregar una imagen predeterminada si no existe ninguna
         element.imagen = element.imagen ? `<img src="${element.imagen}" alt="Producto" width="50" height="50">` : '<img src="https://www.italfren.com.ar/images/catalogo/imagen-no-disponible.jpeg" alt="No disponible" width="50" height="50">';
@@ -71,10 +71,13 @@ function agregar(){
     newRegister();
 }
 
-function editar(){
+function editar() {
+    debugger
     let id = this.getAttribute('data-idProducto');
+    console.log("ID del producto:", id); // Para verificar si se está recuperando el id correctamente
     editRegister(id);
 }
+
 
 async function borrar(){
     let id = this.getAttribute('data-idProducto');

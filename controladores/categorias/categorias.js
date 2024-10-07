@@ -61,6 +61,7 @@ function agregar(){
 }
 
 function editar(){
+    debugger
     let id = this.getAttribute('data-idCategoria');
     editRegister(id);
 }

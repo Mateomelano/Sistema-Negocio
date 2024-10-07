@@ -1,5 +1,5 @@
 const url = "http://127.0.0.1:8000/productos";
-
+import { categoriasServices } from "./categoria-servicios.js";
 async function listar(id) {
     let cadUrl;
     if (isNaN(id)) 
@@ -11,7 +11,8 @@ async function listar(id) {
     return response.json();
 }
 
-async function crear(nombre, descripcion, precioCoste, precioFinal, codBarra, peso, imagen, idCategoria) {
+async function crear(nombre, precioCoste, precioFinal, codBarra, peso, imagen, idCategoria) {
+    debugger
     const response = await fetch(url, {
         method: "POST",
         headers: {
@@ -20,7 +21,6 @@ async function crear(nombre, descripcion, precioCoste, precioFinal, codBarra, pe
         body: JSON.stringify({
             id: 0,  // El ID se autogenera en la base de datos
             nombre: nombre,
-            descripcion: descripcion,
             precio_coste: precioCoste,
             precio_final: precioFinal,
             cod_barra: codBarra,
