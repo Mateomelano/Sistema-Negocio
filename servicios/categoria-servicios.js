@@ -11,20 +11,19 @@ async function listar(id) {
     return response.json();
 }
 
-async function crear(nombre, descripcion) {
+async function crear(datos) {
+    debugger
     const response = await fetch(url, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-            id: 0,  // El ID se autogenera en la base de datos
-            nombre: nombre,
-            descripcion: descripcion
-        })
+        body: JSON.stringify(datos)  // Convertir el objeto a JSON
     });
     return response;
 }
+
+
 
 async function editar(id, nombre, descripcion) {
     const urlPut = `${url}/${id}`;

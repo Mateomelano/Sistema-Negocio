@@ -82,17 +82,15 @@ async function crearFormulario() {
     txtDescripcion = d.getElementById('categoriaDescripcion');
 }
 
-function guardar(e){
+function guardar(e) {
+    debugger
     e.preventDefault();
 
+    var id_categoria  = 0;  // Asignamos un valor por defecto
     var nombre = txtNombre.value;
     var descripcion = txtDescripcion.value;
 
-    let formData = new FormData();
-    formData.append('nombre', nombre);
-    formData.append('descripcion', descripcion);
-
-    categoriasServices.crear(formData)
+    categoriasServices.crear({ id_categoria , nombre, descripcion })  // Ahora incluye el id
         .then(respuesta => {
             formulario.reset();
             window.location.hash = "#/categorias";
@@ -111,6 +109,8 @@ function guardar(e){
             })
         });
 }
+
+
 
 function modificar(e){
     e.preventDefault();

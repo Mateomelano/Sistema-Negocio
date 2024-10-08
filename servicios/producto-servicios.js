@@ -11,26 +11,18 @@ async function listar(id) {
     return response.json();
 }
 
-async function crear(nombre, precioCoste, precioFinal, codBarra, peso, imagen, idCategoria) {
+async function crear(productoData) {
     debugger
     const response = await fetch(url, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-            id: 0,  // El ID se autogenera en la base de datos
-            nombre: nombre,
-            precio_coste: precioCoste,
-            precio_final: precioFinal,
-            cod_barra: codBarra,
-            peso: peso,
-            imagen: imagen,  // Nueva propiedad imagen
-            id_categoria: idCategoria  // Nueva propiedad id_categoria
-        })
+        body: JSON.stringify(productoData)  // Enviar los datos como JSON
     });
     return response;
 }
+
 
 async function editar(id, nombre, descripcion, precioCoste, precioFinal, codBarra, peso, imagen, idCategoria) {
     const urlPut = `${url}/${id}`;

@@ -135,82 +135,90 @@ export async function editRegister(id) {
 
 async function crearFormulario() {
     let d = document;
-    d.querySelector('.rutaMenu').innerHTML = "Productos";
-    d.querySelector('.rutaMenu').setAttribute('href', "#/productos");
-
-    let cP = d.getElementById('contenidoPrincipal');
+    d.querySelector(".rutaMenu").innerHTML = "Productos";
+    d.querySelector(".rutaMenu").setAttribute("href", "#/productos");
+  
+    let cP = d.getElementById("contenidoPrincipal");
     cP.innerHTML = htmlAmProducto;
-
+  
     var script = document.createElement("script");
     script.type = "text/javascript";
     script.src = "../controladores/validaciones.js";
     cP.appendChild(script);
-
+  
     // Obtener los elementos del formulario
-    txtNombre = d.getElementById('productoNombre');
-    txtDescripcion = d.getElementById('productoDescripcion');
-    txtPrecioCoste = d.getElementById('productoPrecioCoste');
-    txtPrecioFinal = d.getElementById('productoPrecioFinal');
-    txtCodBarra = d.getElementById('productoCodBarra');
-    txtPeso = d.getElementById('productoPeso');
-    txtImagen = d.getElementById('productoImagen');
-    txtCategoria = d.getElementById('productoCategoria');
-
-    // Obtener categorías de la API y agregarlas al select
-    let categorias = await categoriasServices.listar();
-    categorias.forEach(categoria => {
-        let option = document.createElement('option');
-        option.value = categoria.id;
-        option.text = categoria.nombre;
-        txtCategoria.appendChild(option);
+    txtNombre = d.getElementById("productoNombre");
+    txtDescripcion = d.getElementById("productoDescripcion");
+    txtPrecioCoste = d.getElementById("productoPrecioCoste");
+    txtPrecioFinal = d.getElementById("productoPrecioFinal");
+    txtCodBarra = d.getElementById("productoCodBarra");
+    txtPeso = d.getElementById("productoPeso");
+    txtImagen = d.getElementById("productoImagen");
+  
+    // Cargar categorías al select
+    txtCategoria = d.getElementById("productoCategoria");
+    let res = await categoriasServices.listar();
+    res.forEach(element => {
+      let option = document.createElement("option");
+      option.value = element.id;
+      option.text = "ID: " + element.id + " - " + element.nombre;
+      txtCategoria.appendChild(option);
     });
-}
+  }
+  
 
 
 
-function guardar(e){
+  function guardar(e) {
+    debugger
     e.preventDefault();
-
+  
     var nombre = txtNombre.value;
     var descripcion = txtDescripcion.value;
     var precioCoste = txtPrecioCoste.value;
     var precioFinal = txtPrecioFinal.value;
     var codBarra = txtCodBarra.value;
     var peso = txtPeso.value;
-    var categoria = txtCategoria.value;
-    var imagen = txtImagen.files[0];
-
-    let formData = new FormData();
-    formData.append('nombre', nombre);
-    formData.append('descripcion', descripcion);
-    formData.append('precio_coste', precioCoste);
-    formData.append('precio_final', precioFinal);
-    formData.append('cod_barra', codBarra);
-    formData.append('peso', peso);
-    formData.append('categoria', categoria);
-    if (imagen) {
-        formData.append('imagen', imagen);
-    }
-
-    productosServices.crear(formData)
-        .then(respuesta => {
-            formulario.reset();
-            window.location.hash = "#/productos";
-            swal.fire({
-                icon: 'success',
-                title: 'Producto Creado',
-                text: respuesta.message,
-            })
-        })
-        .catch(error => {
-            console.log(error);
-            swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: error.message,
-            })
+    var imagen = txtImagen.files[0] ? txtImagen.files[0].name : "";
+  
+    // Obtener el valor de la categoría seleccionada
+    var categoria = txtCategoria.options[txtCategoria.selectedIndex].value;
+  
+    console.log(categoria);  // Verificar que el valor de la categoría es correcto
+  
+    // Crear el producto con los datos obtenidos
+    productosServices.crear({
+      nombre: nombre,
+      descripcion: descripcion,
+      cod_barra: codBarra,
+      precio_coste: parseFloat(precioCoste),
+      precio_final: parseFloat(precioFinal),
+      peso: parseFloat(peso),
+      imagen: imagen,
+      id_categoria: parseInt(categoria)  // Asegúrate de que sea un número
+    })
+      .then((respuesta) => {
+        formulario.reset();
+        window.location.hash = "#/productos";
+        swal.fire({
+          icon: "success",
+          title: "Producto Creado",
+          text: respuesta.message,
         });
-}
+      })
+      .catch((error) => {
+        console.log(error);
+        swal.fire({
+          icon: "error",
+          title: "Error",
+          text: error.message,
+        });
+      });
+  }
+  
+
+
+
 
 function modificar(e){
     e.preventDefault();
