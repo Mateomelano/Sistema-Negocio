@@ -24,23 +24,23 @@ async function crear(productoData) {
 }
 
 
-async function editar(id, nombre, descripcion, precioCoste, precioFinal, codBarra, peso, imagen, idCategoria) {
-    const urlPut = `${url}/${id}`;
+async function editar(id_producto,nombre, precioCoste, precioFinal, codBarra, peso, imagen, idCategoria) {
+    debugger
+    const urlPut = `${url}/${id_producto}`;  // Usa id_producto en lugar de id
     const response = await fetch(urlPut, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            id: id,  // Mantiene el ID del producto a editar
+            id_producto: id_producto,  // Mantiene el ID del producto a editar
             nombre: nombre,
-            descripcion: descripcion,
-            precio_coste: precioCoste,
-            precio_final: precioFinal,
+            precio_coste: parseFloat(precioCoste),  // Asegúrate de que los valores sean correctos
+            precio_final: parseFloat(precioFinal),
             cod_barra: codBarra,
-            peso: peso,
+            peso: parseFloat(peso),
             imagen: imagen,  // Actualiza la imagen si cambia
-            id_categoria: idCategoria  // Actualiza la categoría si cambia
+            id_categoria: parseInt(idCategoria)  // Asegúrate de que sea un número
         })
     });
     return response;

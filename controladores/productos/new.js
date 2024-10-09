@@ -118,8 +118,8 @@ export async function editRegister(id) {
     let producto = await productosServices.listar(id);  // Obtenemos los datos del producto desde la API
 
     // Rellenar el formulario con los datos del producto
+    
     txtNombre.value = producto.nombre || '';  // Precargar el nombre
-    txtDescripcion.value = producto.descripcion || '';  // Precargar la descripción
     txtPrecioCoste.value = producto.precio_coste || '';  // Precargar el precio de coste
     txtPrecioFinal.value = producto.precio_final || '';  // Precargar el precio final
     txtCodBarra.value = producto.cod_barra || '';  // Precargar el código de barra
@@ -154,14 +154,14 @@ async function crearFormulario() {
     txtCodBarra = d.getElementById("productoCodBarra");
     txtPeso = d.getElementById("productoPeso");
     txtImagen = d.getElementById("productoImagen");
-  
+    debugger
     // Cargar categorías al select
     txtCategoria = d.getElementById("productoCategoria");
     let res = await categoriasServices.listar();
     res.forEach(element => {
       let option = document.createElement("option");
-      option.value = element.id;
-      option.text = "ID: " + element.id + " - " + element.nombre;
+      option.value = element.id_categoria;
+      option.text = "ID: " + element.id_categoria + " - " + element.nombre;
       txtCategoria.appendChild(option);
     });
   }
@@ -172,9 +172,8 @@ async function crearFormulario() {
   function guardar(e) {
     debugger
     e.preventDefault();
-  
+    var id_producto = 0;  // Cambiado de 'id' a 'id_producto'
     var nombre = txtNombre.value;
-    var descripcion = txtDescripcion.value;
     var precioCoste = txtPrecioCoste.value;
     var precioFinal = txtPrecioFinal.value;
     var codBarra = txtCodBarra.value;
@@ -188,8 +187,8 @@ async function crearFormulario() {
   
     // Crear el producto con los datos obtenidos
     productosServices.crear({
+      id_producto: id_producto,
       nombre: nombre,
-      descripcion: descripcion,
       cod_barra: codBarra,
       precio_coste: parseFloat(precioCoste),
       precio_final: parseFloat(precioFinal),
@@ -220,31 +219,20 @@ async function crearFormulario() {
 
 
 
-function modificar(e){
-    e.preventDefault();
 
+  function modificar(e) {
+    debugger
+    e.preventDefault();
     var nombre = txtNombre.value;
-    var descripcion = txtDescripcion.value;
     var precioCoste = txtPrecioCoste.value;
     var precioFinal = txtPrecioFinal.value;
     var codBarra = txtCodBarra.value;
     var peso = txtPeso.value;
     var categoria = txtCategoria.value;
-    var imagen = txtImagen.files[0];
+    var imagen = txtImagen.files[0] ? txtImagen.files[0].name : "";  // Asegurarse de obtener el nombre de la imagen
 
-    let formData = new FormData();
-    formData.append('nombre', nombre);
-    formData.append('descripcion', descripcion);
-    formData.append('precio_coste', precioCoste);
-    formData.append('precio_final', precioFinal);
-    formData.append('cod_barra', codBarra);
-    formData.append('peso', peso);
-    formData.append('categoria', categoria);
-    if (imagen) {
-        formData.append('imagen', imagen);
-    }
-
-    productosServices.editar(idProducto, formData)
+    // Llamar a la función editar pasando los valores correctos
+    productosServices.editar(idProducto, nombre, precioCoste, precioFinal, codBarra, peso, imagen, categoria)
         .then(respuesta => {
             formulario.reset();
             window.location.hash = "#/productos";
@@ -252,7 +240,7 @@ function modificar(e){
                 icon: 'success',
                 title: 'Producto Modificado',
                 text: respuesta.message,
-            })
+            });
         })
         .catch(error => {
             console.log(error);
@@ -260,6 +248,6 @@ function modificar(e){
                 icon: 'error',
                 title: 'Error',
                 text: error.message,
-            })
+            });
         });
 }
