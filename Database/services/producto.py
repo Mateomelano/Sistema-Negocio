@@ -28,6 +28,7 @@ class ProductoService():
             # Actualizar también el campo 'nombre' junto con los otros atributos
             producto.nombre = data.nombre
             producto.cod_barra = data.cod_barra
+            producto.descripcion = data.descripcion
             producto.precio_coste = data.precio_coste
             producto.precio_final = data.precio_final
             producto.peso = data.peso

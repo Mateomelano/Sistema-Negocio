@@ -12,7 +12,6 @@ async function listar(id) {
 }
 
 async function crear(productoData) {
-    debugger
     const response = await fetch(url, {
         method: "POST",
         headers: {
@@ -24,8 +23,7 @@ async function crear(productoData) {
 }
 
 
-async function editar(id_producto,nombre, precioCoste, precioFinal, codBarra, peso, imagen, idCategoria) {
-    debugger
+async function editar(id_producto,nombre,descripcion,precioCoste, precioFinal, codBarra, peso, imagen, idCategoria) {
     const urlPut = `${url}/${id_producto}`;  // Usa id_producto en lugar de id
     const response = await fetch(urlPut, {
         method: "PUT",
@@ -35,6 +33,7 @@ async function editar(id_producto,nombre, precioCoste, precioFinal, codBarra, pe
         body: JSON.stringify({
             id_producto: id_producto,  // Mantiene el ID del producto a editar
             nombre: nombre,
+            descripcion: descripcion,
             precio_coste: parseFloat(precioCoste),  // Asegúrate de que los valores sean correctos
             precio_final: parseFloat(precioFinal),
             cod_barra: codBarra,

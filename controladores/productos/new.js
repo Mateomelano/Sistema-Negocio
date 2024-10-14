@@ -104,7 +104,7 @@ export async function newRegister(){
 }
 
 export async function editRegister(id) {
-    debugger
+
     let d = document;
     idProducto = id;
     d.querySelector('.contenidoTitulo').innerHTML = 'Editar Producto';
@@ -120,6 +120,7 @@ export async function editRegister(id) {
     // Rellenar el formulario con los datos del producto
     
     txtNombre.value = producto.nombre || '';  // Precargar el nombre
+    txtDescripcion.value = producto.descripcion || '';  // Precargar la descripción
     txtPrecioCoste.value = producto.precio_coste || '';  // Precargar el precio de coste
     txtPrecioFinal.value = producto.precio_final || '';  // Precargar el precio final
     txtCodBarra.value = producto.cod_barra || '';  // Precargar el código de barra
@@ -154,7 +155,6 @@ async function crearFormulario() {
     txtCodBarra = d.getElementById("productoCodBarra");
     txtPeso = d.getElementById("productoPeso");
     txtImagen = d.getElementById("productoImagen");
-    debugger
     // Cargar categorías al select
     txtCategoria = d.getElementById("productoCategoria");
     let res = await categoriasServices.listar();
@@ -170,10 +170,10 @@ async function crearFormulario() {
 
 
   function guardar(e) {
-    debugger
     e.preventDefault();
     var id_producto = 0;  // Cambiado de 'id' a 'id_producto'
     var nombre = txtNombre.value;
+    var descripcion = txtDescripcion.value;
     var precioCoste = txtPrecioCoste.value;
     var precioFinal = txtPrecioFinal.value;
     var codBarra = txtCodBarra.value;
@@ -190,6 +190,7 @@ async function crearFormulario() {
       id_producto: id_producto,
       nombre: nombre,
       cod_barra: codBarra,
+      descripcion: descripcion,
       precio_coste: parseFloat(precioCoste),
       precio_final: parseFloat(precioFinal),
       peso: parseFloat(peso),
@@ -221,18 +222,18 @@ async function crearFormulario() {
 
 
   function modificar(e) {
-    debugger
     e.preventDefault();
     var nombre = txtNombre.value;
     var precioCoste = txtPrecioCoste.value;
     var precioFinal = txtPrecioFinal.value;
+    var descripcion = txtDescripcion.value;
     var codBarra = txtCodBarra.value;
     var peso = txtPeso.value;
     var categoria = txtCategoria.value;
     var imagen = txtImagen.files[0] ? txtImagen.files[0].name : "";  // Asegurarse de obtener el nombre de la imagen
 
     // Llamar a la función editar pasando los valores correctos
-    productosServices.editar(idProducto, nombre, precioCoste, precioFinal, codBarra, peso, imagen, categoria)
+    productosServices.editar(idProducto, nombre, descripcion, precioCoste, precioFinal, codBarra, peso, imagen, categoria)
         .then(respuesta => {
             formulario.reset();
             window.location.hash = "#/productos";

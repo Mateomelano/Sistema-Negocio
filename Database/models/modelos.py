@@ -24,6 +24,7 @@ class Producto(Base):
     id_producto = Column(Integer, primary_key=True, index=True)
     nombre = Column(String(100), nullable=False)  # Nueva columna 'nombre'
     cod_barra = Column(String(50), nullable=False)
+    descripcion = Column(String(255), nullable=True)
     precio_coste = Column(Float, nullable=False)
     precio_final = Column(Float, nullable=False)
     peso = Column(Float, nullable=False)

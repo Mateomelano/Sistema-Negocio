@@ -4,7 +4,8 @@ from typing import Optional
 
 class Producto(BaseModel):
     id_producto: int
-    nombre: str = Field(min_length=1, max_length=100, description="El nombre del producto es obligatorio")  # Nuevo atributo
+    nombre: str = Field(min_length=1, max_length=100, description="El nombre del producto es obligatorio")
+    descripcion: Optional[str] = Field(default=None, max_length=255)
     cod_barra: str = Field(min_length=5, max_length=50)
     precio_coste: float = Field(ge=0, description="El precio de coste debe ser mayor o igual a 0")
     precio_final: float = Field(ge=0, description="El precio final debe ser mayor o igual a 0")

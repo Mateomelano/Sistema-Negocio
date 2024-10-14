@@ -19,8 +19,9 @@ const htmlProductos =
             <th>#</th>
             <th>Nombre</th> <!-- Nueva columna para el nombre del producto -->
             <th>Código de Barra</th>
-            <th>Precio Coste</th>
-            <th>Precio Final</th>
+            <th>Descripcion</th>
+            <th>PC</th>
+            <th>PF</th>
             <th>Peso</th>
             <th>Imagen</th>
             <th>Categoría</th>
@@ -72,7 +73,6 @@ function agregar(){
 }
 
 function editar() {
-    debugger
     let id = this.getAttribute('data-idProducto');
     console.log("ID del producto:", id); // Para verificar si se está recuperando el id correctamente
     editRegister(id);
@@ -116,6 +116,7 @@ function llenarTabla(res){
             { data: 'id_producto' },
             { data: 'nombre' }, // Nueva columna para el nombre
             { data: 'cod_barra' },
+            { data: 'descripcion' },
             { data: 'precio_coste' },
             { data: 'precio_final' },
             { data: 'peso' },
