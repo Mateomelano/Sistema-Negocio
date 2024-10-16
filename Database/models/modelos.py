@@ -22,19 +22,17 @@ class Usuarios(Base):
 class Producto(Base):
     __tablename__ = 'productos'
     id_producto = Column(Integer, primary_key=True, index=True)
-    nombre = Column(String(100), nullable=False)  # Nueva columna 'nombre'
+    nombre = Column(String(100), nullable=False)
     cod_barra = Column(String(50), nullable=False)
     descripcion = Column(String(255), nullable=True)
     precio_coste = Column(Float, nullable=False)
     precio_final = Column(Float, nullable=False)
     peso = Column(Float, nullable=False)
-    imagen = Column(String(255), nullable=True)  # La imagen puede ser nullable
+    imagen = Column(String(255), nullable=True)
     id_categoria = Column(Integer, ForeignKey('categorias.id_categoria'), nullable=False)
 
-    # Relación con la tabla Categorías
-    categoria = relationship("Categoria", back_populates="productos")
-    ventas = relationship("Venta", back_populates="producto")
-
+    # Relación con la tabla VentaProducto
+    venta_productos = relationship("VentaProducto", back_populates="producto")
 
 # Tabla Categorías
 class Categoria(Base):
@@ -51,22 +49,28 @@ class Categoria(Base):
 class Venta(Base):
     __tablename__ = 'venta'
     id_venta = Column(Integer, primary_key=True, index=True)
-    id_producto = Column(Integer, ForeignKey('productos.id_producto'), nullable=False)
-    id_usuario = Column(Integer, ForeignKey('usuarios.id'), nullable=False)  # Relación con la tabla Usuarios
+    id_usuario = Column(Integer, ForeignKey('usuarios.id'), nullable=False)
     total = Column(Float, nullable=False)
-    cantidad_producto = Column(Integer, nullable=False)
     tipo_pago = Column(String(50), nullable=False)
     fecha = Column(Date, nullable=False)
 
-    # Relación con la tabla Productos
-    producto = relationship("Producto", back_populates="ventas")
-    
+    # Relación con la tabla VentaProducto (una venta puede tener muchos productos)
+    venta_productos = relationship("VentaProducto", back_populates="venta")
+
     # Relación con la tabla Usuarios (cada venta está asociada a un usuario)
     usuario = relationship("Usuarios", back_populates="ventas")
+## Tabla VentaProducto
+class VentaProducto(Base):
+    __tablename__ = 'venta_producto'
+    id_venta_producto = Column(Integer, primary_key=True, index=True)
+    id_venta = Column(Integer, ForeignKey('venta.id_venta'), nullable=False)
+    id_producto = Column(Integer, ForeignKey('productos.id_producto'), nullable=False)
+    cantidad = Column(Integer, nullable=False)
+    subtotal = Column(Float, nullable=False)  # Precio total por este producto en la venta
 
-    # Relación con la tabla Caja
-    cajas = relationship("Caja", back_populates="venta")
-
+    # Relación con las tablas Venta y Producto
+    venta = relationship("Venta", back_populates="venta_productos")
+    producto = relationship("Producto", back_populates="venta_productos")
 
 # Tabla Caja
 class Caja(Base):
