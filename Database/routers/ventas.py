@@ -32,10 +32,11 @@ def get_venta(id: int = Path(ge=1, le=2000)) -> Venta:
 
 # Crear una nueva venta con productos asociados
 @ventas_router.post('/ventas', tags=['ventas'], response_model=dict, status_code=201)
-def create_venta(venta: Venta, productos: List[VentaProducto]) -> dict:
+def create_venta(venta: Venta) -> dict:
     db = SessionLocal()
-    VentaService(db).create_venta(venta, productos)  # Se envían tanto la venta como los productos
+    VentaService(db).create_venta(venta)  # Solo envías el objeto venta, que contiene los productos
     return JSONResponse(status_code=201, content={"message": "Se ha registrado la venta"})
+
 
 
 # Actualizar una venta existente junto con los productos

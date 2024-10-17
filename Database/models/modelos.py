@@ -19,6 +19,7 @@ class Usuarios(Base):
 
 
 # Tabla Productos
+# Modelo Producto
 class Producto(Base):
     __tablename__ = 'productos'
     id_producto = Column(Integer, primary_key=True, index=True)
@@ -33,6 +34,11 @@ class Producto(Base):
 
     # Relación con la tabla VentaProducto
     venta_productos = relationship("VentaProducto", back_populates="producto")
+
+    # Relación inversa hacia Categoría (esto es lo que faltaba)
+    categoria = relationship("Categoria", back_populates="productos")
+
+    
 
 # Tabla Categorías
 class Categoria(Base):
@@ -59,6 +65,12 @@ class Venta(Base):
 
     # Relación con la tabla Usuarios (cada venta está asociada a un usuario)
     usuario = relationship("Usuarios", back_populates="ventas")
+
+    # Relación con la tabla Caja (si es que corresponde)
+    cajas = relationship("Caja", back_populates="venta")
+
+    
+    
 ## Tabla VentaProducto
 class VentaProducto(Base):
     __tablename__ = 'venta_producto'

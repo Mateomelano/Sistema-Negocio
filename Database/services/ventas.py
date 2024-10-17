@@ -19,28 +19,30 @@ class VentaService:
         return result
     
     # Crear una nueva venta junto con los productos asociados
-    def create_venta(self, venta: Venta, productos: List[VentaProducto]):
-        new_venta = VentaModel(
-            id_usuario=venta.id_usuario,
-            total=venta.total,
-            tipo_pago=venta.tipo_pago,
-            fecha=venta.fecha
-        )
-        self.db.add(new_venta)
-        self.db.commit()
-        self.db.refresh(new_venta)  # Para obtener el id_venta generado
-
-        # Asociar productos a la venta en la tabla intermedia
-        for producto in productos:
-            new_venta_producto = VentaProductoModel(
-                id_venta=new_venta.id_venta,
-                id_producto=producto.id_producto,
-                cantidad=producto.cantidad
+    def create_venta(self, venta: Venta):
+            # Crear la venta
+            new_venta = VentaModel(
+                id_usuario=venta.id_usuario,
+                total=venta.total,
+                tipo_pago=venta.tipo_pago,
+                fecha=venta.fecha
             )
-            self.db.add(new_venta_producto)
+            self.db.add(new_venta)
+            self.db.commit()
+            self.db.refresh(new_venta)  # Obtener el id_venta generado
 
-        self.db.commit()
-        return new_venta
+            # Asociar los productos a la venta
+            for producto in venta.productos:
+                new_venta_producto = VentaProductoModel(
+                    id_venta=new_venta.id_venta,
+                    id_producto=producto.id_producto,
+                    cantidad=producto.cantidad,
+                    subtotal=producto.subtotal
+                )
+                self.db.add(new_venta_producto)
+
+            self.db.commit()
+            return new_venta
 
     # Actualizar una venta y sus productos asociados
     def update_venta(self, id: int, data: Venta, productos: List[VentaProducto]):
