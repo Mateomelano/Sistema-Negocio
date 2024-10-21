@@ -7,6 +7,7 @@ from routers.usuarios import usuarios_router
 from routers.productos import producto_router  # Modificado para usar el router de productos
 from routers.ventas import ventas_router  # Modificado para usar el router de ventas
 from routers.categorias import categoria_router  # Agregado router para categorías
+from routers.ventaProducto import venta_productos_router
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
@@ -29,6 +30,7 @@ app.include_router(usuarios_router)  # Router para usuarios
 app.include_router(producto_router)  # Router para productos
 app.include_router(ventas_router)  # Router para ventas
 app.include_router(categoria_router)  # Router para categorías
+app.include_router(venta_productos_router)
 
 # Crear todas las tablas en la base de datos
 Base.metadata.create_all(bind=engine)
