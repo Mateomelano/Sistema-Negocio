@@ -1,6 +1,8 @@
 const url = "http://127.0.0.1:8000/ventas"; // URL base para las ventas
+const url2 = "http://127.0.0.1:8000/venta-productos"
 
 async function listar(id) {
+    debugger
     let cadUrl;
     if (isNaN(id)) 
       cadUrl = url;
@@ -10,6 +12,27 @@ async function listar(id) {
     const response = await fetch(cadUrl);
     return response.json();
 }
+
+async function listar2() {
+    debugger
+    const cadUrl = url2; // URL para obtener todos los productos de ventas
+
+    try {
+        const response = await fetch(cadUrl);
+
+        // Verifica si la respuesta es correcta
+        if (!response.ok) {
+            throw new Error(`Error: ${response.status} - ${response.statusText}`);
+        }
+
+        return await response.json(); // Devolver todos los productos en formato JSON
+    } catch (error) {
+        console.error('Error fetching product details:', error);
+        return []; // En caso de error, devolver un array vacío
+    }
+}
+
+
 
 async function crear(ventaData) {
     const response = await fetch(url, {
@@ -76,6 +99,7 @@ async function borrar(id) {
 
 export const ventasServices = {
     listar,
+    listar2,
     crear,
     editar,
     borrar,
