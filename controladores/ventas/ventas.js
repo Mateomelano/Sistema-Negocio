@@ -44,8 +44,6 @@ export async function Ventas() {
 
     // Obtener todos los productos de ventas una sola vez
     const todosLosProductos = await ventasServices.listar2();
-    debugger
-
     // Para cada venta, filtrar los productos que pertenecen a esa venta
     const ventasConProductos = res.map((venta) => {
         // Filtrar productos por id_venta
@@ -55,7 +53,6 @@ export async function Ventas() {
         venta.productos = productos.length > 0 
             ? productos.map(p => p.id_producto).join(", ") 
             : "Sin productos"; // Si no hay productos, mostrar mensaje
-        
         return venta;
     });
 

@@ -2,7 +2,6 @@ const url = "http://127.0.0.1:8000/ventas"; // URL base para las ventas
 const url2 = "http://127.0.0.1:8000/venta-productos"
 
 async function listar(id) {
-    debugger
     let cadUrl;
     if (isNaN(id)) 
       cadUrl = url;
@@ -14,7 +13,6 @@ async function listar(id) {
 }
 
 async function listar2() {
-    debugger
     const cadUrl = url2; // URL para obtener todos los productos de ventas
 
     try {
