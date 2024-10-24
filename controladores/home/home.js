@@ -1,7 +1,4 @@
 import { usuariosServices } from "../../servicios/usuarios-servicios.js";
-import { destinosServices } from "../../servicios/destinos-servicios.js";
-import { paquetesServices } from "../../servicios/paquetes-servicios.js";
-import { reservaServices } from "../../servicios/reservas-servicios.js";
 import { productosServices } from "../../servicios/producto-servicios.js";
 
 const htmlHome = 
@@ -23,79 +20,6 @@ const htmlHome =
             <a href="#/usuarios" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
         </div>
     </div>
-
-    <div class="col-lg-3 col-6">
-        <!-- small box -->
-        <div class="small-box">
-            <div class="inner">
-            <h3 id="indDestinos">DESTINOS</h3>
-
-            <p>Destinos</p>
-            </div>
-            <div class="icon">
-            <i class="ion ion-person-add"></i>
-            </div>
-            <a href="#/destinos" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-        </div>
-    </div>
-
-    <div class="col-lg-3 col-6">
-        <!-- small box -->
-        <div class="small-box">
-            <div class="inner">
-            <h3 id="indPaquetes">0</h3>
-            <p>Paquetes</p>
-            </div>
-            <div class="icon">
-            <i class="ion ion-pie-graph"></i>
-            </div>
-            <a href="#/paquetes" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-        </div>
-    </div>
-    
-    <div class="col-lg-3 col-6">
-        <!-- small box -->
-        <div class="small-box">
-            <div class="inner">
-            <h3 id="indReservas">0</h3>
-            <p>Reservas</p>
-            </div>
-            <div class="icon">
-            <i class="ion ion-pie-graph"></i>
-            </div>
-            <a href="#/reservas" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-        </div>
-    </div>
-
-    <div class="col-lg-3 col-6">
-        <!-- small box -->
-        <div class="small-box">
-            <div class="inner">
-            <h3 id="indPaqueteMasReservado" style="margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">0</h3>
-            <p>Paquete mas reservado</p>
-            </div>
-            <div class="icon">
-            <i class="ion ion-pie-graph"></i>
-            </div>
-            <a href="#/paquetes" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-        </div>
-    </div>
-
-    <!-- ./col -->
-    <div class="col-lg-3 col-6">
-        <!-- small box -->
-        <div class="small-box">
-            <div class="inner">
-                <h3 id="indUsuarioMasReservas" style="margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">0</h3>
-                <p>Usuario con más reservas</p>
-            </div>
-            <div class="icon">
-                <i class="ion ion-person"></i>
-            </div>
-            <a href="#/usuarios" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-        </div>
-    </div>
-
     <!-- New box for products -->
     <div class="col-lg-3 col-6">
         <!-- small box -->
@@ -125,32 +49,12 @@ export async function Home(){
            
     cP.innerHTML = htmlHome;
     let indUsuarios = d.getElementById("indUsuarios");
-    let indDestinos = d.getElementById("indDestinos");
-    let indPaquetes = d.getElementById("indPaquetes");
-    let indReservas = d.getElementById("indReservas");
-    let indPaqueteMasReservado = d.getElementById("indPaqueteMasReservado");
-    let indUsuarioMasReservas = d.getElementById("indUsuarioMasReservas");
 
     // CANTIDAD DE USUARIOS
     res = await usuariosServices.listar();
     indUsuarios.innerHTML = res.length;
-    
-    // CANTIDAD DE DESTINOS
-    res = await destinosServices.listar();
-    indDestinos.innerHTML = res.length;
 
-    // CANTIDAD DE PAQUETES
-    res = await paquetesServices.listar();
-    indPaquetes.innerHTML = res.length;
-
-    // CANTIDAD DE RESERVAS
-    res = await reservaServices.listar();
-    indReservas.innerHTML = res.length;
-
-    // PAQUETE MÁS RESERVADO
-    const reservas = await reservaServices.listar();
-    const paquetesReservas = {};
-
+    /*
     reservas.forEach(reserva => {
         const paqueteId = reserva.paquete_id;
         if (paquetesReservas[paqueteId]) {
@@ -165,7 +69,7 @@ export async function Home(){
         const paqueteMasReservado = await paquetesServices.listar(paqueteMasReservadoId);
         indPaqueteMasReservado.innerHTML = `${paqueteMasReservado.nombre} (${paquetesReservas[paqueteMasReservadoId]} reservas)`;
     } else {
-        indPaqueteMasReservado.innerHTML = "No hay reservas";
+        indPaqueteMasReservado.innerHTML = "No hay reservas"; 
     }
 
     // USUARIO CON MÁS RESERVAS
@@ -186,5 +90,5 @@ export async function Home(){
         indUsuarioMasReservas.innerHTML = `${usuarioMasReservas.nombre} (${usuariosReservas[usuarioMasReservasId]} reservas)`;
     } else {
         indUsuarioMasReservas.innerHTML = "No hay reservas";
-    }
+    } */
 }

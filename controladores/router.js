@@ -4,11 +4,13 @@ import { Usuarios } from "./usuarios/usuarios.js";
 import { Productos } from "./productos/productos.js";
 import { Categorias } from "./categorias/categorias.js";
 import { Ventas } from "./ventas/ventas.js";
+import { Caja } from "./caja/caja.js";
 
 
 
 
 export function Router(){
+    debugger
     let hash = location.hash;
     //CAMBIAR MENU ACTIVO
     let origen = document.querySelector("a[href^='" + hash + "']");
@@ -18,7 +20,6 @@ export function Router(){
             document.querySelector("a[href^='" + hash + "']").classList.add('active');
          }
     }
-
 
     if (hash === '#/usuarios'){
         Usuarios();
@@ -30,7 +31,9 @@ export function Router(){
         Categorias();
     } else if(hash==='#/ventas'){
         Ventas();
-    }
+    } else if(hash==='#/caja'){
+        Caja();
+}
          
     console.log (hash);
 }
