@@ -24,6 +24,7 @@ const htmlProductos =
             <th>PF</th>
             <th>Peso</th>
             <th>Imagen</th>
+            <th>Stock</th>
             <th>Categoría</th>
             <th>Acciones</th>
             </tr>
@@ -121,6 +122,7 @@ function llenarTabla(res){
             { data: 'precio_final' },
             { data: 'peso' },
             { data: 'imagen', orderable: false }, // Columna para la imagen
+            { data: 'stock' },
             { data: 'id_categoria' }, // Columna para la categoría
             { data: 'action', orderable: false } // Acciones (editar, borrar)
         ],

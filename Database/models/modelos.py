@@ -31,12 +31,16 @@ class Producto(Base):
     peso = Column(Float, nullable=False)
     imagen = Column(String(255), nullable=True)
     id_categoria = Column(Integer, ForeignKey('categorias.id_categoria'), nullable=False)
+    
+    # Nuevo campo de stock
+    stock = Column(Integer, nullable=False)  # Stock obligatorio y de tipo entero
 
     # Relación con la tabla VentaProducto
     venta_productos = relationship("VentaProducto", back_populates="producto")
 
-    # Relación inversa hacia Categoría (esto es lo que faltaba)
+    # Relación inversa hacia Categoría
     categoria = relationship("Categoria", back_populates="productos")
+
 
     
 

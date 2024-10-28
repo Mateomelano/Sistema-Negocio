@@ -1,5 +1,6 @@
 const url = "http://127.0.0.1:8000/productos";
 import { categoriasServices } from "./categoria-servicios.js";
+
 async function listar(id) {
     let cadUrl;
     if (isNaN(id)) 
@@ -22,8 +23,7 @@ async function crear(productoData) {
     return response;
 }
 
-
-async function editar(id_producto,nombre,descripcion,precioCoste, precioFinal, codBarra, peso, imagen, idCategoria) {
+async function editar(id_producto, nombre, descripcion, precioCoste, precioFinal, codBarra, peso, imagen, idCategoria, stock) {
     const urlPut = `${url}/${id_producto}`;  // Usa id_producto en lugar de id
     const response = await fetch(urlPut, {
         method: "PUT",
@@ -39,7 +39,8 @@ async function editar(id_producto,nombre,descripcion,precioCoste, precioFinal, c
             cod_barra: codBarra,
             peso: parseFloat(peso),
             imagen: imagen,  // Actualiza la imagen si cambia
-            id_categoria: parseInt(idCategoria)  // Asegúrate de que sea un número
+            id_categoria: parseInt(idCategoria),  // Asegúrate de que sea un número
+            stock: parseInt(stock)  // Añadir el campo stock como un número entero
         })
     });
     return response;

@@ -48,6 +48,13 @@ const htmlAmProducto = `
                     <div class="valid-feedback">Valid.</div>
                     <div class="invalid-feedback">Please enter the weight.</div>
                 </div>
+                <!-- Stock -->
+                <div class="form-group mt-2">
+                    <label>Stock</label>
+                    <input type="number" class="form-control" name="stock" id="productoStock" required>
+                    <div class="valid-feedback">Valid.</div>
+                    <div class="invalid-feedback">Please enter the stock quantity.</div>
+                </div>
                 <!-- Categoría -->
                 <div class="form-group mt-2">
                     <label>Categoría</label>
@@ -78,7 +85,6 @@ const htmlAmProducto = `
 </div>
 `;
 
-
 var formulario = '';
 var txtNombre = '';
 var txtDescripcion = '';
@@ -86,12 +92,12 @@ var txtPrecioCoste = '';
 var txtPrecioFinal = '';
 var txtCodBarra = '';
 var txtPeso = '';
+var txtStock = '';  // Añadimos esta variable
 var idProducto;
 var txtImagen = '';
 var txtCategoria = '';
 
-export async function newRegister(){
-
+export async function newRegister() {
     let d = document;
 
     d.querySelector('.contenidoTitulo').innerHTML = 'Agregar Producto';
@@ -104,7 +110,6 @@ export async function newRegister(){
 }
 
 export async function editRegister(id) {
-
     let d = document;
     idProducto = id;
     d.querySelector('.contenidoTitulo').innerHTML = 'Editar Producto';
@@ -118,13 +123,13 @@ export async function editRegister(id) {
     let producto = await productosServices.listar(id);  // Obtenemos los datos del producto desde la API
 
     // Rellenar el formulario con los datos del producto
-    
     txtNombre.value = producto.nombre || '';  // Precargar el nombre
     txtDescripcion.value = producto.descripcion || '';  // Precargar la descripción
     txtPrecioCoste.value = producto.precio_coste || '';  // Precargar el precio de coste
     txtPrecioFinal.value = producto.precio_final || '';  // Precargar el precio final
     txtCodBarra.value = producto.cod_barra || '';  // Precargar el código de barra
     txtPeso.value = producto.peso || '';  // Precargar el peso
+    txtStock.value = producto.stock || '';  // Precargar el stock
 
     // Seleccionar la categoría actual del producto
     let categoriaOption = Array.from(txtCategoria.options).find(option => option.value == producto.id_categoria);
@@ -133,20 +138,19 @@ export async function editRegister(id) {
     }
 }
 
-
 async function crearFormulario() {
     let d = document;
     d.querySelector(".rutaMenu").innerHTML = "Productos";
     d.querySelector(".rutaMenu").setAttribute("href", "#/productos");
-  
+
     let cP = d.getElementById("contenidoPrincipal");
     cP.innerHTML = htmlAmProducto;
-  
+
     var script = document.createElement("script");
     script.type = "text/javascript";
     script.src = "../controladores/validaciones.js";
     cP.appendChild(script);
-  
+
     // Obtener los elementos del formulario
     txtNombre = d.getElementById("productoNombre");
     txtDescripcion = d.getElementById("productoDescripcion");
@@ -154,7 +158,9 @@ async function crearFormulario() {
     txtPrecioFinal = d.getElementById("productoPrecioFinal");
     txtCodBarra = d.getElementById("productoCodBarra");
     txtPeso = d.getElementById("productoPeso");
+    txtStock = d.getElementById("productoStock");  // Obtener el campo de stock
     txtImagen = d.getElementById("productoImagen");
+
     // Cargar categorías al select
     txtCategoria = d.getElementById("productoCategoria");
     let res = await categoriasServices.listar();
@@ -164,12 +170,9 @@ async function crearFormulario() {
       option.text = "ID: " + element.id_categoria + " - " + element.nombre;
       txtCategoria.appendChild(option);
     });
-  }
-  
+}
 
-
-
-  function guardar(e) {
+function guardar(e) {
     e.preventDefault();
     var id_producto = 0;  // Cambiado de 'id' a 'id_producto'
     var nombre = txtNombre.value;
@@ -178,50 +181,46 @@ async function crearFormulario() {
     var precioFinal = txtPrecioFinal.value;
     var codBarra = txtCodBarra.value;
     var peso = txtPeso.value;
+    var stock = txtStock.value;  // Obtener el valor del stock
     var imagen = txtImagen.files[0] ? txtImagen.files[0].name : "";
-  
+
     // Obtener el valor de la categoría seleccionada
     var categoria = txtCategoria.options[txtCategoria.selectedIndex].value;
-  
-    console.log(categoria);  // Verificar que el valor de la categoría es correcto
-  
+
     // Crear el producto con los datos obtenidos
     productosServices.crear({
-      id_producto: id_producto,
-      nombre: nombre,
-      cod_barra: codBarra,
-      descripcion: descripcion,
-      precio_coste: parseFloat(precioCoste),
-      precio_final: parseFloat(precioFinal),
-      peso: parseFloat(peso),
-      imagen: imagen,
-      id_categoria: parseInt(categoria)  // Asegúrate de que sea un número
+        id_producto: id_producto,
+        nombre: nombre,
+        cod_barra: codBarra,
+        descripcion: descripcion,
+        precio_coste: parseFloat(precioCoste),
+        precio_final: parseFloat(precioFinal),
+        peso: parseFloat(peso),
+        stock: parseInt(stock),  // Asegurarse de que sea un número entero
+        imagen: imagen,
+        id_categoria: parseInt(categoria)
     })
-      .then((respuesta) => {
+    .then((respuesta) => {
         formulario.reset();
         window.location.hash = "#/productos";
         swal.fire({
-          icon: "success",
-          title: "Producto Creado",
-          text: respuesta.message,
+            icon: "success",
+            title: "Producto Creado",
+            text: respuesta.message,
         });
-      })
-      .catch((error) => {
+    })
+    .catch((error) => {
         console.log(error);
         swal.fire({
-          icon: "error",
-          title: "Error",
-          text: error.message,
+            icon: "error",
+            title: "Error",
+            text: error.message,
         });
-      });
-  }
-  
+    });
+}
 
-
-
-
-
-  function modificar(e) {
+function modificar(e) {
+    debugger
     e.preventDefault();
     var nombre = txtNombre.value;
     var precioCoste = txtPrecioCoste.value;
@@ -229,11 +228,12 @@ async function crearFormulario() {
     var descripcion = txtDescripcion.value;
     var codBarra = txtCodBarra.value;
     var peso = txtPeso.value;
+    var stock = txtStock.value;  // Obtener el valor del stock
     var categoria = txtCategoria.value;
     var imagen = txtImagen.files[0] ? txtImagen.files[0].name : "";  // Asegurarse de obtener el nombre de la imagen
 
     // Llamar a la función editar pasando los valores correctos
-    productosServices.editar(idProducto, nombre, descripcion, precioCoste, precioFinal, codBarra, peso, imagen, categoria)
+    productosServices.editar(idProducto, nombre, descripcion, precioCoste, precioFinal, codBarra, peso, imagen, categoria, stock)
         .then(respuesta => {
             formulario.reset();
             window.location.hash = "#/productos";
