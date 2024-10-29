@@ -2,8 +2,8 @@ const urlCaja = "http://127.0.0.1:8000/caja"; // URL base para la caja
 const urlProductos = "http://127.0.0.1:8000/productos"; // URL para obtener productos
 
 // Listar productos por código de barra o por nombre
-async function obtenerProductoPorCodigo(codigo) {
-    const urlProducto = `${urlProductos}/${codigo}`;
+async function obtenerProductoPorCodigoBarras(codigoBarra) {
+    const urlProducto = `${urlProductos}/cod_barra/${codigoBarra}`;
 
     try {
         const response = await fetch(urlProducto);
@@ -14,10 +14,11 @@ async function obtenerProductoPorCodigo(codigo) {
 
         return await response.json(); // Devolver el producto encontrado
     } catch (error) {
-        console.error('Error fetching product:', error);
+        console.error('Error fetching product by code:', error);
         return null; // Si no se encuentra el producto, devolver null
     }
 }
+
 
 // Crear nueva venta con productos agregados
 async function realizarVenta(productos, total) {
@@ -68,7 +69,7 @@ async function obtenerHistorialVentas() {
 }
 
 export const cajaServices = {
-    obtenerProductoPorCodigo,
+    obtenerProductoPorCodigoBarras,
     realizarVenta,
     obtenerHistorialVentas
 };

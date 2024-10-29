@@ -27,6 +27,14 @@ def get_producto(id: int = Path(ge=1, le=2000)) -> Producto:
         return JSONResponse(status_code=404, content={'message': "No encontrado"})
     return JSONResponse(status_code=200, content=jsonable_encoder(result))
 
+@producto_router.get('/productos/cod_barra/{cod_barra}', tags=['Producto'], response_model=Producto, status_code=200)
+def get_producto_by_cod_barra(cod_barra: int = Path(..., ge=1)) -> Producto:
+    db = SessionLocal()
+    result = ProductoService(db).get_producto_cod_barra(cod_barra)
+    if not result:
+        return JSONResponse(status_code=404, content={'message': "Producto no encontrado"})
+    return JSONResponse(status_code=200, content=jsonable_encoder(result))
+
 
 @producto_router.post('/productos', tags=['Producto'], response_model=dict, status_code=201)
 def create_producto(producto: Producto) -> dict:

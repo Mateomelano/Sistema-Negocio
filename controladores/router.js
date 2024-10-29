@@ -10,7 +10,6 @@ import { Caja } from "./caja/caja.js";
 
 
 export function Router(){
-    debugger
     let hash = location.hash;
     //CAMBIAR MENU ACTIVO
     let origen = document.querySelector("a[href^='" + hash + "']");

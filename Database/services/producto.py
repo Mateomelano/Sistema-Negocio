@@ -13,6 +13,11 @@ class ProductoService():
     def get_producto_id(self, id_producto: int):
         result = self.db.query(ProductoModel).filter(ProductoModel.id_producto == id_producto).first()
         return result
+    
+    def get_producto_cod_barra(self, cod_barra: int):
+        result = self.db.query(ProductoModel).filter(ProductoModel.cod_barra == cod_barra).first()
+        return result
+
 
     def create_producto(self, producto: Producto):
         # Agregar el nuevo atributo 'stock' al crear un producto
