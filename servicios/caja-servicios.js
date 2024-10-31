@@ -3,6 +3,7 @@ const urlProductos = "http://127.0.0.1:8000/productos"; // URL para obtener prod
 
 // Listar productos por código de barra o por nombre
 async function obtenerProductoPorCodigoBarras(codigoBarra) {
+    debugger
     const urlProducto = `${urlProductos}/cod_barra/${codigoBarra}`;
 
     try {
@@ -22,6 +23,7 @@ async function obtenerProductoPorCodigoBarras(codigoBarra) {
 
 // Crear nueva venta con productos agregados
 async function realizarVenta(productos, total) {
+    debugger
     const urlVenta = urlCaja; // Usa la URL base de caja para registrar la venta
     const ventaData = {
         productos: productos,  // Lista de productos agregados

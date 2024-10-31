@@ -47,37 +47,55 @@ export async function Caja() {
     const btnFinalizarVenta = d.getElementById("btnFinalizarVenta");
 
     async function agregarProducto() {
+        debugger
         const codigoBarra = codigoProductoInput.value.trim();
         if (codigoBarra === "") {
             Swal.fire('Error', 'Por favor ingrese un código de producto.', 'error');
             return;
         }
-
+    
         const producto = await cajaServices.obtenerProductoPorCodigoBarras(codigoBarra);
         if (producto) {
+            // Buscar si el producto ya está en la lista de productos agregados usando el ID
             const productoExistente = productosAgregados.find(p => p.id === producto.id);
+            console.log(productosAgregados)
+            
             if (productoExistente) {
+                // Si el producto ya existe, incrementar la cantidad y actualizar visualmente
                 productoExistente.cantidad += 1;
                 actualizarProductoVisual(productoExistente);
             } else {
+                // Si el producto no existe, agregarlo a la lista y mostrarlo visualmente
                 producto.cantidad = 1;
                 productosAgregados.push(producto);
                 agregarProductoVisual(producto);
             }
-
+    
+            // Actualizar el total de la venta
             totalVenta += parseFloat(producto.precio_final);
             totalVentaSpan.innerText = totalVenta.toFixed(2);
-
+    
+            // Limpiar el input
             codigoProductoInput.value = "";
         } else {
             Swal.fire('Error', 'Producto no encontrado.', 'error');
         }
     }
-
+    
     function agregarProductoVisual(producto) {
-        const productoDiv = document.createElement("div");
-        productoDiv.classList.add("producto-item");
-        productoDiv.setAttribute("data-id", producto.id);
+        debugger
+        // Buscar si el producto ya tiene un elemento visual en el DOM
+        let productoDiv = listaProductosDiv.querySelector(`[data-id="${producto.id}"]`);
+        
+        if (!productoDiv) {
+            // Si el producto no existe en el DOM, crear un nuevo elemento visual
+            productoDiv = document.createElement("div");
+            productoDiv.classList.add("producto-item");
+            productoDiv.setAttribute("data-id", producto.id);
+            listaProductosDiv.appendChild(productoDiv);
+        }
+    
+        // Actualizar la información visual del producto (nombre, precio y cantidad)
         productoDiv.innerHTML = `
             <span>${producto.nombre} - $<span class="precio">${producto.precio_final.toFixed(2)}</span> x </span>
             <span class="cantidad">${producto.cantidad}</span>
@@ -85,15 +103,19 @@ export async function Caja() {
             <button class="btn btn-secondary btn-sm ml-1 btnDecrementarCantidad" data-id="${producto.id}">-</button>
             <button class="btn btn-danger btn-sm ml-3 btnQuitarProducto" data-id="${producto.id}">Quitar</button>
         `;
-        listaProductosDiv.appendChild(productoDiv);
     }
+    
 
     function actualizarProductoVisual(producto) {
         const productoDiv = listaProductosDiv.querySelector(`[data-id="${producto.id}"]`);
         if (productoDiv) {
+            // Actualizar el nombre y precio visualmente
+            productoDiv.querySelector(".precio").innerText = producto.precio_final.toFixed(2);
             productoDiv.querySelector(".cantidad").innerText = producto.cantidad;
+            productoDiv.querySelector("span").firstChild.nodeValue = `${producto.nombre} - $`;
         }
     }
+    
 
     function modificarCantidad(event) {
         debugger
