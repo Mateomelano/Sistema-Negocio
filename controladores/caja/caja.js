@@ -47,7 +47,6 @@ export async function Caja() {
     const btnFinalizarVenta = d.getElementById("btnFinalizarVenta");
 
     async function agregarProducto() {
-        debugger
         const codigoBarra = codigoProductoInput.value.trim();
         if (codigoBarra === "") {
             Swal.fire('Error', 'Por favor ingrese un código de producto.', 'error');
@@ -57,12 +56,10 @@ export async function Caja() {
         const producto = await cajaServices.obtenerProductoPorCodigoBarras(codigoBarra);
         if (producto) {
             // Buscar si el producto ya está en la lista de productos agregados usando el ID
-            const productoExistente = productosAgregados.find(p => p.id === producto.id_producto);
-            console.log(productosAgregados)
-            console.log(producto)
-            console.log(producto.id_producto)
+            const productoExistente = productosAgregados.find(p => p.id_producto === producto.id_producto);
+            
             if (productoExistente) {
-                // Si el producto ya existe, incrementar la cantidad y actualizar visualmente
+                // Incrementar la cantidad y actualizar visualmente
                 productoExistente.cantidad += 1;
                 actualizarProductoVisual(productoExistente);
             } else {
@@ -112,6 +109,7 @@ export async function Caja() {
     }
     
     function actualizarProductoVisual(producto) {
+        debugger
         const productoDiv = listaProductosDiv.querySelector(`[data-id="${producto.id_producto}"]`);
         if (productoDiv) {
             // Actualizar la cantidad visualmente
@@ -120,7 +118,7 @@ export async function Caja() {
     }
     
     function modificarCantidad(event) {
-        debugger;
+        debugger
         const id = parseInt(event.target.getAttribute("data-id"));
         const producto = productosAgregados.find(p => p.id_producto === id);
     
@@ -131,7 +129,11 @@ export async function Caja() {
             } else if (event.target.classList.contains("btnDecrementarCantidad") && producto.cantidad > 1) {
                 producto.cantidad -= 1;
                 totalVenta -= producto.precio_final;
+            } else if (event.target.classList.contains("btnDecrementarCantidad") && producto.cantidad === 1) {
+                Swal.fire('Info', 'No puedes reducir la cantidad por debajo de 1.', 'info');
+                return;
             }
+    
             totalVentaSpan.innerText = totalVenta.toFixed(2);
             actualizarProductoVisual(producto);
         }
@@ -141,7 +143,7 @@ export async function Caja() {
     function quitarProducto(event) {
         if (event.target.classList.contains("btnQuitarProducto")) {
             const id = parseInt(event.target.getAttribute("data-id"));
-            const productoIndex = productosAgregados.findIndex(p => p.id === id);
+            const productoIndex = productosAgregados.findIndex(p => p.id_producto === id);
             if (productoIndex !== -1) {
                 totalVenta -= productosAgregados[productoIndex].precio_final * productosAgregados[productoIndex].cantidad;
                 totalVentaSpan.innerText = totalVenta.toFixed(2);
@@ -152,7 +154,8 @@ export async function Caja() {
         }
     }
 
-    // Escucha de eventos para los botones de la lista de productos
+// Agregar la escucha de eventos al contenedor de productos (esto debe ejecutarse solo una vez)
+    if (!listaProductosDiv.dataset.eventBound) {
     listaProductosDiv.addEventListener("click", (event) => {
         if (event.target.classList.contains("btnIncrementarCantidad") || event.target.classList.contains("btnDecrementarCantidad")) {
             modificarCantidad(event);
@@ -160,6 +163,9 @@ export async function Caja() {
             quitarProducto(event);
         }
     });
+    listaProductosDiv.dataset.eventBound = "true"; // Marcamos que ya hemos añadido el evento
+    }
+
 
     async function finalizarVenta() {
         if (productosAgregados.length === 0) {
