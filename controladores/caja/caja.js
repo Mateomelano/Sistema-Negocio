@@ -81,7 +81,7 @@ export async function Caja() {
     }
     
     function agregarProductoVisual(producto) {
-        debugger;
+        
         // Verificar si el producto ya tiene un elemento visual en el DOM
         let productoDiv = listaProductosDiv.querySelector(`[data-id="${producto.id_producto}"]`);
         
@@ -109,7 +109,7 @@ export async function Caja() {
     }
     
     function actualizarProductoVisual(producto) {
-        debugger
+        
         const productoDiv = listaProductosDiv.querySelector(`[data-id="${producto.id_producto}"]`);
         if (productoDiv) {
             // Actualizar la cantidad visualmente
@@ -118,7 +118,7 @@ export async function Caja() {
     }
     
     function modificarCantidad(event) {
-        debugger
+        
         const id = parseInt(event.target.getAttribute("data-id"));
         const producto = productosAgregados.find(p => p.id_producto === id);
     
@@ -155,16 +155,7 @@ export async function Caja() {
     }
 
 // Agregar la escucha de eventos al contenedor de productos (esto debe ejecutarse solo una vez)
-    if (!listaProductosDiv.dataset.eventBound) {
-    listaProductosDiv.addEventListener("click", (event) => {
-        if (event.target.classList.contains("btnIncrementarCantidad") || event.target.classList.contains("btnDecrementarCantidad")) {
-            modificarCantidad(event);
-        } else if (event.target.classList.contains("btnQuitarProducto")) {
-            quitarProducto(event);
-        }
-    });
-    listaProductosDiv.dataset.eventBound = "true"; // Marcamos que ya hemos añadido el evento
-    }
+
 
 
     async function finalizarVenta() {
