@@ -1,4 +1,4 @@
-const urlCaja = "http://127.0.0.1:8000/caja"; // URL base para la caja
+const urlCaja = "http://127.0.0.1:8000/ventas"; // URL base para la caja
 const urlProductos = "http://127.0.0.1:8000/productos"; // URL para obtener productos
 
 // Listar productos por código de barra o por nombre
@@ -22,15 +22,23 @@ async function obtenerProductoPorCodigoBarras(codigoBarra) {
 
 
 // Crear nueva venta con productos agregados
-async function realizarVenta(productos, total) {
-    
+async function realizarVenta(idUsuario, productos, total) {
     const urlVenta = urlCaja; // Usa la URL base de caja para registrar la venta
+    debugger
     const ventaData = {
-        productos: productos,  // Lista de productos agregados
-        total: total,  // Precio total
-        fecha: new Date().toISOString(),  // Fecha actual en formato ISO
-        tipo_pago: "Efectivo"  // Se puede cambiar según el tipo de pago seleccionado
+        id_usuario: parseInt(idUsuario, 10),  // Asegurarnos de que el ID sea un número
+        total: total,           // Precio total
+        tipo_pago: "Efectivo",  // Se puede cambiar según el tipo de pago seleccionado
+        fecha: new Date().toISOString().split("T")[0],  // Fecha actual en formato ISO (solo la fecha)
+        productos: productos.map(producto => ({
+            id_producto: producto.id,
+            cantidad: producto.cantidad,
+            subtotal: producto.subtotal,
+            id_categoria: producto.idCategoria
+        }))  // Mantener productos como array
     };
+    console.log(ventaData)
+    debugger
 
     try {
         const response = await fetch(urlVenta, {
@@ -51,6 +59,7 @@ async function realizarVenta(productos, total) {
         throw error;  // Lanzar el error para manejarlo en el frontend
     }
 }
+
 
 // Obtener historial de ventas realizadas (opcional si es necesario)
 async function obtenerHistorialVentas() {

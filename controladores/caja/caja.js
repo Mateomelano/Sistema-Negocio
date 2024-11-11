@@ -1,5 +1,4 @@
 import { cajaServices } from "../../servicios/caja-servicios.js";
-
 const htmlCaja = `
 <div class="card">
     <div class="card-header">
@@ -158,24 +157,42 @@ export async function Caja() {
 
 
 
-    async function finalizarVenta() {
-        if (productosAgregados.length === 0) {
-            Swal.fire('Error', 'No hay productos en la venta.', 'error');
-            return;
-        }
+async function finalizarVenta() {
 
-        const response = await cajaServices.realizarVenta(productosAgregados, totalVenta);
-        if (response) {
-            Swal.fire('Venta realizada', 'La venta se ha realizado exitosamente.', 'success');
+    const usuarioId = sessionStorage.getItem('usuarioId'); // Obtener el ID del usuario de sessionStorage
 
-            productosAgregados = [];
-            totalVenta = 0.00;
-            totalVentaSpan.innerText = totalVenta.toFixed(2);
-            listaProductosDiv.innerHTML = "";
-        } else {
-            Swal.fire('Error', 'Hubo un problema al realizar la venta.', 'error');
-        }
+    if (!usuarioId) {
+        Swal.fire('Error', 'No se pudo obtener el ID del usuario. Intente iniciar sesión nuevamente.', 'error');
+        return;
     }
+    if (productosAgregados.length === 0) {
+        Swal.fire('Error', 'No hay productos en la venta.', 'error');
+        return;
+    }
+
+    // Mapear productos al esquema requerido para enviar
+    const productosParaVenta = productosAgregados.map(producto => ({
+        id: producto.id_producto,                   // ID del producto
+        cantidad: producto.cantidad,       // Cantidad del producto
+        subtotal: producto.precio_final * producto.cantidad,  // Calcular subtotal
+        idCategoria: producto.id_categoria  // ID de la categoría
+    }));
+    debugger
+    const response = await cajaServices.realizarVenta(usuarioId, productosParaVenta, totalVenta);
+    console.log(response)
+    if (response) {
+        Swal.fire('Venta realizada', 'La venta se ha realizado exitosamente.', 'success');
+
+        // Resetear la lista de productos y el total de venta
+        productosAgregados = [];
+        totalVenta = 0.00;
+        totalVentaSpan.innerText = totalVenta.toFixed(2);
+        listaProductosDiv.innerHTML = "";
+    } else {
+        Swal.fire('Error', 'Hubo un problema al realizar la venta.', 'error');
+    }
+}
+
 
     btnAgregarProducto.addEventListener("click", agregarProducto);
     listaProductosDiv.addEventListener("click", quitarProducto);
