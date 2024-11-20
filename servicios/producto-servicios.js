@@ -1,4 +1,4 @@
-const url = "http://127.0.0.1:8000/productos";
+const url = "http://darkslategrey-bear-314610.hostingersite.com/productos";
 import { categoriasServices } from "./categoria-servicios.js";
 
 async function listar(id) {

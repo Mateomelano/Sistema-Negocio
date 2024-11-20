@@ -1,4 +1,4 @@
-const url = "http://127.0.0.1:8000/usuarios";
+const url = "http://darkslategrey-bear-314610.hostingersite.com/usuarios";
 
 // Función para listar usuarios
 async function listar(id) {

@@ -1,5 +1,5 @@
-const urlCaja = "http://127.0.0.1:8000/ventas"; // URL base para la caja
-const urlProductos = "http://127.0.0.1:8000/productos"; // URL para obtener productos
+const urlCaja = "http://darkslategrey-bear-314610.hostingersite.com/ventas"; // URL base para la caja
+const urlProductos = "http://darkslategrey-bear-314610.hostingersite.com/productos"; // URL para obtener productos
 
 // Listar productos por código de barra o por nombre
 async function obtenerProductoPorCodigoBarras(codigoBarra) {

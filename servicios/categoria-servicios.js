@@ -1,4 +1,4 @@
-const url = "http://127.0.0.1:8000/categorias";
+const url = "http://darkslategrey-bear-314610.hostingersite.com/categorias";
 
 async function listar(id) {
     let cadUrl;
